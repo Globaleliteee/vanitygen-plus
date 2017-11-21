@@ -35,8 +35,8 @@ usage(const char *progname)
 "-e            Encrypt output key, prompt for password\n"
 "-E <password> Encrypt output key with <password> (UNSAFE)\n"
 "-c <key>      Combine private key parts to make complete private key\n"
-"-C <altcoin>  Decrypt an address for specific altcoin, use \"-C LIST\" to view\n" 
-"              a list of all available altcoins, argument is case sensetive!\n" 
+"-C <altcoin>  Decrypt an address for specific altcoin, use \"-C LIST\" to view\n"
+"              a list of all available altcoins, argument is case sensitive!\n"
 "-d            Decrypt output key, prompt for password\n"
 "-X <version>  Public key version (for altcoins)\n"
 "-Y <version>  Private key version (-X provides public key)\n"
@@ -56,16 +56,16 @@ main(int argc, char **argv)
 	const char *key2_in = NULL;
 	EC_KEY *pkey;
 	int parameter_group = -1;
-	int addrtype = 0; 
-	int privtype = 128; 
-	int addrtype_opt = addrtype; 
-	int privtype_opt = privtype; 
+	int addrtype = 0;
+	int privtype = 128;
+	int addrtype_opt = addrtype;
+	int privtype_opt = privtype;
 	int addrtype_override = 0;
 	int pkcs8 = 0;
 	int pass_prompt = 0;
 	int verbose = 0;
 	int generate = 0;
-	int decrypt = 0; 
+	int decrypt = 0;
 	int opt;
 	int res;
 
@@ -105,6 +105,7 @@ main(int argc, char **argv)
 					"CON : PayCon : P\n"
 					"CRW : Crown : 1\n"
 					"DASH : Dash : X\n"
+					"DEEPONION : DeepOnion : D\n"
 					"DGB : Digibyte : D\n"
 					"DGC : Digitalcoin : D\n"
 					"DMD : Diamond : d\n"
@@ -113,6 +114,7 @@ main(int argc, char **argv)
 					"DOPE : Dopecoin : 4\n"
 					"DVC : Devcoin : 1\n"
 					"EFL : Electronic-Gulden-Foundation : L\n"
+					"EMC : Emercoin : E\n"
 					"EXCL : Exclusivecoin : E\n"
 					"FAIR : Faircoin2 : f\n"
 					"FLOZ : FLOZ : F\n"
@@ -144,6 +146,7 @@ main(int argc, char **argv)
 					"OMC : Omnicoin : o\n"
 					"PIGGY : Piggycoin : p\n"
 					"PINK : Pinkcoin : 2\n"
+					"PIVX : PIVX : D\n"
 					"PKB : Parkbyte : P\n"
 					"PND : Pandacoin : P\n"
 					"POT : Potcoin : P\n"
@@ -177,11 +180,27 @@ main(int argc, char **argv)
 					return 1;
 			}
 			else
+			if (strcmp(optarg, "PIVX")== 0) {
+				fprintf(stderr,
+					"Generating PIVX Address\n");
+					addrtype = 30;
+					privtype = 212;
+					break;
+			}
+			else
 			if (strcmp(optarg, "PINK")== 0) {
 				fprintf(stderr,
 					"Decrypting PINK Address\n");
 					addrtype_opt = 3;
 					privtype_opt = 131;
+					break;
+			}
+			else
+			if (strcmp(optarg, "DEEPONION")== 0) {
+				fprintf(stderr,
+					"Decrypting DEEPONION Address\n");
+					addrtype_opt = 31;
+					privtype_opt = 159;
 					break;
 			}
 			else
@@ -279,6 +298,14 @@ main(int argc, char **argv)
 					addrtype_opt = 73;
 					privtype_opt = 201;
 					break;
+			}
+			else
+			if (strcmp(optarg, "EMC")== 0) {
+				fprintf(stderr,
+						"Decrypting Emercoin Address\n");
+				addrtype_opt = 33;
+				privtype_opt = 128;
+				break;
 			}
 			else
 			if (strcmp(optarg, "EXCL")== 0) {
@@ -913,28 +940,28 @@ main(int argc, char **argv)
 		case 'G':
 			generate = 1;
 			break;
-		case 'd': 
-			decrypt = 1; 
-			break; 
-		case 'X': 
-			addrtype_opt = atoi(optarg); 
-			privtype_opt = addrtype + 128; 
-			addrtype_override = 1; 
-			break; 
-		case 'Y': 
-			privtype_opt = atoi(optarg); 
-			addrtype_override = 1; 
-			break; 
+		case 'd':
+			decrypt = 1;
+			break;
+		case 'X':
+			addrtype_opt = atoi(optarg);
+			privtype_opt = addrtype + 128;
+			addrtype_override = 1;
+			break;
+		case 'Y':
+			privtype_opt = atoi(optarg);
+			addrtype_override = 1;
+			break;
 		default:
 			usage(argv[0]);
 			return 1;
 		}
 	}
-	if (addrtype_override) 
-	{ 
-		addrtype = addrtype_opt; 
-		privtype = privtype_opt; 
-	} 
+	if (addrtype_override)
+	{
+		addrtype = addrtype_opt;
+		privtype = privtype_opt;
+	}
 
 
 	OpenSSL_add_all_algorithms();
@@ -971,9 +998,9 @@ main(int argc, char **argv)
 				       "Enter import password:", 0) ||
 		    !vg_protect_decode_privkey(pkey, &privtype, key_in, pwbuf))
 			return 1;
-		res = 1; 
-	} else  
-		res = vg_decode_privkey_any(pkey, &privtype, key_in, NULL); 
+		res = 1;
+	} else
+		res = vg_decode_privkey_any(pkey, &privtype, key_in, NULL);
 
 	if (!res) {
 		fprintf(stderr, "ERROR: Unrecognized key format\n");
@@ -1025,10 +1052,10 @@ main(int argc, char **argv)
 			fprintf(stderr, "WARNING: Using weak password\n");
 	}
 
-	if (addrtype_override) 
-	{ 
-		addrtype = addrtype_opt; 
-		privtype = privtype_opt; 
+	if (addrtype_override)
+	{
+		addrtype = addrtype_opt;
+		privtype = privtype_opt;
 	}
 
 	if (verbose) {
@@ -1039,7 +1066,7 @@ main(int argc, char **argv)
 		fprintf(stderr, "Privkey (hex): ");
 		dumpbn(EC_KEY_get0_private_key(pkey));
 	}
-			
+
 	if (pkcs8) {
 		res = vg_pkcs8_encode_privkey(pbuf, sizeof(pbuf),
 					      pkey, pass_in);

@@ -94,9 +94,9 @@ Error:
 
 Fix it by issuing the below commands, in turn either installing or downgrading libcrypto.  The error comes from an incompatibility with the newer version of libcrypto.  Most older projects have this same bug.  
 ```
-wget http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6-udeb_2.24-12_amd64.udeb http://ftp.us.debian.org/debian/pool/main/o/openssl1.0/libcrypto1.0.2-udeb_1.0.2l-2_amd64.udeb  
-sudo dpkg -i libc6-udeb_2.24-12_amd64.udeb libcrypto1.0.2-udeb_1.0.2l-2_amd64.udeb  
-rm libc6-udeb_2.24-12_amd64.udeb libcrypto1.0.2-udeb_1.0.2l-2_amd64.udeb  
+wget http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6-udeb_2.24-17_amd64.udeb http://ftp.us.debian.org/debian/pool/main/o/openssl1.0/libcrypto1.0.2-udeb_1.0.2l-2_amd64.udeb  
+sudo dpkg -i libc6-udeb_2.24-17_amd64.udeb libcrypto1.0.2-udeb_1.0.2l-2_amd64.udeb  
+rm libc6-udeb_2.24-17_amd64.udeb libcrypto1.0.2-udeb_1.0.2l-2_amd64.udeb  
 ```
 -----
 Encrypting and Decrypting a vanitygen or oclvanitygen private key  
@@ -149,9 +149,11 @@ Current List of Available Coins for Address Generation
 |CDN | Canadaecoin | C  |
 |CLAM | Clamcoin | x  |
 |CNC | Chinacoin | C  |
+|CNOTE | C-Note | C |
 |CON | PayCon | P  |
 |CRW | Crown | 1  |
 |DASH | Dash | X  |
+|DEEPONION | DeepOnion | D  |
 |DGB | Digibyte | D  |
 |DGC | Digitalcoin | D  |
 |DMD | Diamond | d  |
@@ -160,6 +162,7 @@ Current List of Available Coins for Address Generation
 |DOPE | Dopecoin | 4  |
 |DVC | Devcoin | 1  |
 |EFL | Electronic-Gulden-Foundation | L  |
+|EMC | Emercoin | E  |
 |EXCL | Exclusivecoin | E  |
 |FAIR | Faircoin2 | f  |
 |FLOZ | FLOZ | F  |
@@ -191,6 +194,7 @@ Current List of Available Coins for Address Generation
 |OMC | Omnicoin | o  |
 |PIGGY | Piggycoin | p  |
 |PINK | Pinkcoin | 2  |
+|PIVX | PIVX | D  |
 |PKB | Parkbyte | P  |
 |PND | Pandacoin | P  |
 |POT | Potcoin | P  |

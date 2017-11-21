@@ -5,7 +5,7 @@
  * Vanitygen is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
+ * any later version.
  *
  * Vanitygen is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -316,8 +316,8 @@ usage(const char *name)
 "-i            Case-insensitive prefix search\n"
 "-k            Keep pattern and continue search after finding a match\n"
 "-1            Stop after first match\n"
-"-C <altcoin>  Generate an address for specific altcoin, use \"-C LIST\" to view\n" 
-"              a list of all available altcoins, argument is case sensetive!\n" 
+"-C <altcoin>  Generate an address for specific altcoin, use \"-C LIST\" to view\n"
+"              a list of all available altcoins, argument is case sensitive!\n"
 "-X <version>  Generate address with the given version\n"
 "-Y <version>  Specify private key version (-X provides public key)\n"
 "-F <format>   Generate address with the given format (pubkey, compressed, script)\n"
@@ -428,6 +428,7 @@ main(int argc, char **argv)
 					"CON : PayCon : P\n"
 					"CRW : Crown : 1\n"
 					"DASH : Dash : X\n"
+					"DEEPONION : DeepOnion : D\n"
 					"DGB : Digibyte : D\n"
 					"DGC : Digitalcoin : D\n"
 					"DMD : Diamond : d\n"
@@ -436,6 +437,7 @@ main(int argc, char **argv)
 					"DOPE : Dopecoin : 4\n"
 					"DVC : Devcoin : 1\n"
 					"EFL : Electronic-Gulden-Foundation : L\n"
+					"EMC : Emercoin : E\n"
 					"EXCL : Exclusivecoin : E\n"
 					"FAIR : Faircoin2 : f\n"
 					"FLOZ : FLOZ : F\n"
@@ -467,6 +469,7 @@ main(int argc, char **argv)
 					"OMC : Omnicoin : o\n"
 					"PIGGY : Piggycoin : p\n"
 					"PINK : Pinkcoin : 2\n"
+					"PIVX : PIVX : D\n"
 					"PKB : Parkbyte : P\n"
 					"PND : Pandacoin : P\n"
 					"POT : Potcoin : P\n"
@@ -500,13 +503,29 @@ main(int argc, char **argv)
 					return 1;
 			}
 			else
+			if (strcmp(optarg, "PIVX")== 0) {
+				fprintf(stderr,
+					"Generating PIVX Address\n");
+					addrtype = 30;
+					privtype = 212;
+					break;
+			}
+			else
 			if (strcmp(optarg, "PINK")== 0) {
 				fprintf(stderr,
 					"Generating PINK Address\n");
 					addrtype = 3;
 					privtype = 131;
 					break;
-			}	
+			}
+			else
+			if (strcmp(optarg, "DEEPONION")== 0) {
+				fprintf(stderr,
+					"Generating DEEPONION Address\n");
+					addrtype = 31;
+					privtype = 159;
+					break;
+			}
 			else
 			if (strcmp(optarg, "DMD")== 0) {
 				fprintf(stderr,
@@ -602,6 +621,14 @@ main(int argc, char **argv)
 					addrtype = 73;
 					privtype = 201;
 					break;
+			}
+			else
+			if (strcmp(optarg, "EMC")== 0) {
+				fprintf(stderr,
+						"Generating Emercoin Address\n");
+				addrtype = 33;
+				privtype = 128;
+				break;
 			}
 			else
 			if (strcmp(optarg, "EXCL")== 0) {
@@ -1215,10 +1242,10 @@ main(int argc, char **argv)
 			privtype = 128 + addrtype;
 			scriptaddrtype = addrtype;
 			break;
-		case 'Y': 
-			/* Overrides privtype of 'X' but leaves all else intact */ 
-			privtype = atoi(optarg); 
- 			break; 
+		case 'Y':
+			/* Overrides privtype of 'X' but leaves all else intact */
+			privtype = atoi(optarg);
+ 			break;
 		case 'F':
 			if (!strcmp(optarg, "script"))
 				format = VCF_SCRIPT;
@@ -1250,7 +1277,7 @@ main(int argc, char **argv)
 			}
 			break;
 		}
-			
+
 		case 'e':
 			prompt_password = 1;
 			break;
